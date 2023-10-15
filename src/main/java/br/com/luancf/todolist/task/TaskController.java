@@ -1,5 +1,6 @@
 package br.com.luancf.todolist.task;
 
+import br.com.luancf.todolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +38,14 @@ public class TaskController {
         var idUser = request.getAttribute("idUser");
         var tasks = taskRepository.findByUserId((UUID) idUser);
         return tasks;
+    }
+
+    @PutMapping("/{id}")
+    public TaskModel update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
+        var task = taskRepository.findById(id).orElse(null);
+
+        Utils.copyNonNullProperties(taskModel, task);
+
+        return taskRepository.save(task);
     }
 }
