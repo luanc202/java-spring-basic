@@ -46,11 +46,11 @@ public class TaskController {
         var idUser = request.getAttribute("idUser");
 
         if (task == null) {
-            return ResponseEntity.status(404).body("Tarefa não encontrada");s
+            return ResponseEntity.status(404).body("Tarefa não encontrada");
         }
 
         if (!task.getUserId().equals(idUser)) {
-            return ResponseEntity.status(401).body("Usuário sem autorização");
+            return ResponseEntity.status(401).body("Usuário sem autorização para editar essa tarefa");
         }
 
         Utils.copyNonNullProperties(taskModel, task);
